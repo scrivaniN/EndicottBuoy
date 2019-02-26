@@ -1,59 +1,57 @@
-<?php
-include ('index.html');
-$conn = mysqli_connect("ecbuoy.cl7cxw0gh9pq.us-east-2.rds.amazonaws.com", "nick" , "Scribbles1$" , "endicottbuoy");
-$query = "SELECT * FROM readings ORDER BY id ";
-$result = mysqli_query($conn, $query);
-?>
 
-<style>
-    .table-wrapper-scroll-y {
-        display: block;
-        max-height: 350px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
-
-    }
-</style>
-
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <title>Endicott live Buoy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="300">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css" type="text/css"> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+    <style>
+        img{
+            width: 175px;
+            height: 75px;
+        }
+    </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary navbar-fixed-top">
+    <a class="navbar-left" ><img src="/images/logo-vertical-endicott-white.png" width ="150" height="100" alt=""></a>
 
 
-
-<div class="row" style="padding-left: 5%">
-    <div class="one-third-column" style="margin-top: 5%; height: 300px">
-        <strong>Showing All Records</strong>
-        <h2>Temperatures</h2>
-        <div class="table-wrapper-scroll-y">
-            <table class="table table-striped ">
-                <thead>
-                <tr>
-                    <th> Temperature</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                if($result-> num_rows > 0){
-                    while ($row = $result-> fetch_assoc()){
-                        echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i : s A', strtotime($row['date']))."</td></tr>";
-                    }
-                    echo "</table>";
-                }
-                else{
-                    echo "0 result";
-                }
-                $conn->close();
-                ?>
-                </tbody>
-            </table>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false aria-label="Toggle navigation" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <!--<div class="navbar-nav  ">
+                <a class="nav-item nav-link active" href="http://18.224.7.205" style="padding-right: 10px; font-size: medium; text-align: center">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link"  href=history.php" style="padding-right: 10px">History</a>
+                <a class="nav-item nav-link" href="test.php">About Us</a>
+            </div>-->
+            <ul class="navbar-nav .mr-auto">
+                <li class="nav-item nav-link active"><a href="#">Home</a></li>
+                <li class="nav-item nav-link"><a href="#">History</a></li>
+                <li class="nav-item nav-link"><a href="#">About Us</a></li>
+            </ul>
         </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+</body>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Endicott Live Buoy Data</h1>
+        <br />
     </div>
 </div>
+
+<body>
+
+</div>
+</div>
+</body>
+</html>

@@ -11,14 +11,11 @@ import datetime
 from time import sleep
 import mysql.connector
 import time
-#import thread
 import schedule
 
 temperatureList = []
 humidityList = []
-#dblock = False
 
-#s = sched.scheduler(time.time, time.sleep)
 
 
 #specifies which sensor we are using(we are using dht22)
@@ -27,7 +24,7 @@ sensor = dht.DHT22
 pin = '4'
 
 #sleep and get a reading every 3 seconds.
-sleepTime = 3
+sleepTime = 600
 
 
 def readDHT22():

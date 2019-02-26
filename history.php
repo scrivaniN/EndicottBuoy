@@ -1,7 +1,7 @@
 
 <?php
 include ('index.html');
-$conn = mysqli_connect("ecbuoy.cl7cxw0gh9pq.us-east-2.rds.amazonaws.com", "nick" , "Scribbles1$" , "endicottbuoy");
+include ('database.php');
 $query = "SELECT * FROM readings ";
 $result = mysqli_query($conn, $query);
 
@@ -17,10 +17,6 @@ $table['cols'] = array(
     array('label' => 'Humidity', 'type' => number)
 
 );
-
-
-
-
 
 foreach ($result as $r){
     $temp = array();
