@@ -1,6 +1,4 @@
-<?php
-include('index.html');
-?>
+
 
 <main>
         <aside>
