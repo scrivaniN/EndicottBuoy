@@ -15,7 +15,7 @@ while ($row = mysqli_fetch_array($result))
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="images/165699_hero.jpg">
+    <link rel="icon" type="image/png" href="images/buoy.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         Endicott Live Buoy
@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_array($result))
       -->
         <div class="logo">
             <a href="http://18.224.7.205/" class="simple-text logo-normal">
-                Endicott Live Buoy
+                <img src="images/buoy.png" style="width: 50px; height: 50px"> Endicott Live Buoy
             </a>
         </div>
         <div class="sidebar-wrapper">
