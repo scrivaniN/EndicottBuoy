@@ -1,36 +1,54 @@
 
 <?php
-//include ('index.html');
 include ('database.php');
 $query = "SELECT * FROM readings ";
 $result = mysqli_query($conn, $query);
+$humidityRow = mysqli_query($conn, $query);
 
 $qry = "SELECT * FROM readings ORDER BY id ";
 $end = mysqli_query($conn, $query);
+$data = mysqli_query($conn, $query);
 
 
-$rows = array();
-$table = array();
-$table['cols'] = array(
-    array('label' => 'Date','type' => 'datetime'),
-    array('label' => 'Temperature ', 'type' => 'number'),
-    array('label' => 'Humidity', 'type' => number)
-
-);
-
-foreach ($result as $r){
-    $temp = array();
-
-    $temp[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$r['date'])).')');
-    $temp[] = array('v' => number_format($r['temperature'], 0));
-    $temp[] = array('v' => number_format($r['humidity'],0));
-    $rows[] = array('c' => $temp);
-
-    $table['rows'] = $rows;
-
-    $jsonTable = json_encode($table);
-
-}
+//$rows = array();
+//$hRows = array();
+//$tempTable = array();
+//$tempTable['cols'] = array(
+//    array('label' => 'Date','type' => 'datetime'),
+//    array('label' => 'Temperature ', 'type' => 'number'),
+//    //array('label' => 'Humidity', 'type' => 'number'),
+//
+//);
+//$humidityTable = array();
+//$humidityTable['cols'] = array(
+//    array('label' => 'Date','type' => 'datetime'),
+//    array('label' => 'Humidity', 'type' => 'number'),
+//);
+//
+//foreach ($result as $r){
+//    $temp = array();
+//
+//    $temp[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$r['date'])).')');
+//    $temp[] = array('v' => number_format($r['temperature'], 0));
+//    //$temp[] = array('v' => number_format($r['humidity'],0));
+//    $rows[] = array('c' => $temp);
+//
+//    $tempTable['rows'] = $rows;
+//
+//    $jsonTable = json_encode($tempTable);
+//   // echo $jsonTable;
+//}
+//foreach ($result as $h){
+//    $temp2 = array();
+//
+//    $temp2[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$h['date'])).')');
+//    $temp2[] = array('v' => number_format($h['humidity'],0));
+//    $hRows[] = array('c' => $temp2);
+//
+//    $humidityTable['rows'] = $hRows;
+//
+//    $jsonTable2 = json_encode($humidityTable);
+//}
 
 
 ?>
@@ -42,7 +60,7 @@ foreach ($result as $r){
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="images/165699_hero.jpg">
+    <link rel="icon" type="image/png" href="images/buoy.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         Endicott Live Buoy
@@ -86,7 +104,7 @@ foreach ($result as $r){
                 <li class="nav-item ">
                     <a class="nav-link" href="aboutUs.php">
                         <i class="material-icons">person</i>
-                        <p>About US</p>
+                        <p>About Us</p>
                     </a>
                 </li>
 
@@ -120,37 +138,117 @@ foreach ($result as $r){
         </nav>
         <div class="content">
             <div class="container-fluid">
-                <div class="col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card card-header-primary">
-                            <h4 class="card-title">Temperatures</h4>
-                            <p class="card-category">Showing All Temperature Records</p>
-                        </div>
-                        <div class="card-body table-responsive table-wrapper-scroll-y">
-                            <table class="table table-hover ">
-                                <thead class="text-primary">
-                                <tr>
-                                    <th> Temperature</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                if($end-> num_rows > 0){
-                                    while ($row = $end-> fetch_assoc()){
-                                        echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($row['date']))."</td></tr>";
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card card-header-success">
+                                <h4 class="card-title">Temperatures</h4>
+                                <p class="card-category">Showing All Temperature Records</p>
+                            </div>
+                            <div class="card-body table-responsive table-wrapper-scroll-y">
+                                <table class="table table-hover ">
+                                    <thead class="text-success">
+                                    <tr>
+                                        <th> Temperature</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if($end-> num_rows > 0){
+                                        while ($row = $end-> fetch_assoc()){
+                                            echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($row['date']))."</td></tr>";
+                                        }
+                                        echo "</table>";
                                     }
-                                    echo "</table>";
-                                }
-                                else{
-                                    echo "0 result";
-                                }
-                                $conn->close();
-                                ?>
-                                </tbody>
-                            </table>
+                                    else{
+                                        echo "0 result";
+                                    }
+
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card card-header-warning">
+                                <h4 class="card-title">Humidity</h4>
+                                <p class="card-category">Showing All Humidity Records</p>
+                            </div>
+                            <div class="card-body table-responsive table-wrapper-scroll-y">
+                                <table class="table table-hover ">
+                                    <thead class="text-warning">
+                                    <tr>
+                                        <th> Humidity</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if($humidityRow-> num_rows > 0){
+                                        while ($getHumidityRow = $humidityRow-> fetch_assoc()){
+                                            echo "<tr><td>" . number_format($getHumidityRow['humidity'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($getHumidityRow['date']))."</td></tr>";
+                                        }
+                                        echo "</table>";
+                                    }
+                                    else{
+                                        echo "0 result";
+                                    }
+                                    //$conn->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-tabs card-header-success">
+                                    <h4 class="card-title">Temperature Records</h4>
+                                    <p class="card-category"> Showing Records of Temperature Over Time </p>
+                                </div>
+                                <div class="col-md-12" id="curve_chart" style="width: 900px; height: 500px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-tabs card-header-warning">
+                                    <h4 class="card-title">Humidity Records</h4>
+                                    <p class="card-category"> Showing Records of Humidity Over Time </p>
+                                </div>
+                                <div class="col-md-12" id="humidity_chart" style="width: 1000px; height: 500px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <nav class="float-left">
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/scrivaniN">
+                                            Github
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="aboutUs.php">
+                                            About Us
+                                        </a>
+                                    </li>
+                            </nav>
+                            <div class="copyright float-right">
+                                &copy;
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>, made by
+                                <a href="https://www.linkedin.com/in/nicholas-scrivani-93bb9110a/" target="_blank">Nicholas Scrivani</a>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
@@ -380,11 +478,25 @@ foreach ($result as $r){
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawHumidityChart);
 
     function drawChart() {
-        var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
+        var data = new google.visualization.arrayToDataTable([
+            ['label', 'Temperature'],
+
+            <?php
+                while($row = mysqli_fetch_array($result))
+                echo"['".$row["date"]."', ".$row["temperature"]."],";
+            ?>
+
+
+
+        ]);
+
+
+
         var options = {
-            title: "Temperatures",
+            title: "Records",
             chartArea: {width: '90%', height: '75%'},
             legend:{position: 'bottom',name: 'Temperature'}
 
@@ -395,7 +507,31 @@ foreach ($result as $r){
 
         chart.draw(data, options);
 
+    }function drawHumidityChart() {
+        var data = new google.visualization.arrayToDataTable([
+            ['label', 'Humidity'],
+
+            <?php
+            while($hRow = mysqli_fetch_array($data))
+                echo"['".date('M d Y , g : i A', strtotime($hRow["date"]))."', ".$hRow["humidity"]."],";
+            ?>
+
+
+
+        ]);
+        var options = {
+            title: "Records",
+            chartArea: {width: '90%', height: '75%'},
+            legend:{position: 'bottom',name: 'Humidity'},
+            hAxis:{textStyle:{fontSize: 7}},
+
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('humidity_chart'));
+        chart.draw(data, options);
+
     }
+
 
 </script>
 </body>
@@ -414,42 +550,3 @@ foreach ($result as $r){
 </html>
 
 
-
-<!--
-<body>
-<div class="container">
-    <br>
-    <strong>Showing All Records</strong>
-    <h2>Temperatures</h2>
-    <div class="row" >
-        <div class="col-md-4">
-            <div class="table-wrapper-scroll-y">
-                <table class="table table-striped ">
-                    <thead>
-                    <tr>
-                        <th> Temperature</th>
-                        <th>Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    if($end-> num_rows > 0){
-                        while ($row = $end-> fetch_assoc()){
-                            echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($row['date']))."</td></tr>";
-                        }
-                        echo "</table>";
-                    }
-                    else{
-                        echo "0 result";
-                    }
-                    $conn->close();
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-8" id="curve_chart" style="width: 900px; height: 500px;"></div>
-    </div>
-</div>
-</body>
--->

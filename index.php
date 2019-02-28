@@ -59,7 +59,7 @@ while ($row = mysqli_fetch_array($result))
                 <li class="nav-item ">
                     <a class="nav-link" href="aboutUs.php">
                         <i class="material-icons">person</i>
-                        <p>About US</p>
+                        <p>About Us</p>
                     </a>
                 </li>
 
@@ -109,7 +109,7 @@ while ($row = mysqli_fetch_array($result))
                                 <h4 class="card-title">Air Temperature</h4>
                                 <p class="card-category">
                                     <?php
-                                    echo "<p>" . number_format($myArray[0]["temperature"],2)."</p>";
+                                    echo "<p>" . number_format($myArray[0]["temperature"],2)."&deg</p>";
                                     ?>
                                 </p>
                             </div>
@@ -133,7 +133,7 @@ while ($row = mysqli_fetch_array($result))
                                 <h4 class="card-title">Humidity</h4>
                                 <p class="card-category">
                                     <?php
-                                    echo "<p>" . number_format($myArray[0]["humidity"],2)."</p>";
+                                    echo "<p>" . number_format($myArray[0]["humidity"],2)."%</p>";
                                     ?>
                                 </p>
                             </div>
@@ -150,11 +150,13 @@ while ($row = mysqli_fetch_array($result))
                     <div class="col-md-4">
                         <div class="card card-chart">
                             <div class="card-header card-header-danger">
-                                <div class="ct-chart" id="completedTasksChart"></div>
+                                <img src="images/wind.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title">Completed Tasks</h4>
-                                <p class="card-category">Last Campaign Performance</p>
+                                <h4 class="card-title">Wind Speed</h4>
+                                <?php
+                                echo "<p>" . number_format($myArray[0]["humidity"],2)." MPH</p>";
+                                ?>
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
