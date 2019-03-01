@@ -8,49 +8,6 @@ $humidityRow = mysqli_query($conn, $query);
 $qry = "SELECT * FROM readings ORDER BY id ";
 $end = mysqli_query($conn, $query);
 $data = mysqli_query($conn, $query);
-
-
-//$rows = array();
-//$hRows = array();
-//$tempTable = array();
-//$tempTable['cols'] = array(
-//    array('label' => 'Date','type' => 'datetime'),
-//    array('label' => 'Temperature ', 'type' => 'number'),
-//    //array('label' => 'Humidity', 'type' => 'number'),
-//
-//);
-//$humidityTable = array();
-//$humidityTable['cols'] = array(
-//    array('label' => 'Date','type' => 'datetime'),
-//    array('label' => 'Humidity', 'type' => 'number'),
-//);
-//
-//foreach ($result as $r){
-//    $temp = array();
-//
-//    $temp[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$r['date'])).')');
-//    $temp[] = array('v' => number_format($r['temperature'], 0));
-//    //$temp[] = array('v' => number_format($r['humidity'],0));
-//    $rows[] = array('c' => $temp);
-//
-//    $tempTable['rows'] = $rows;
-//
-//    $jsonTable = json_encode($tempTable);
-//   // echo $jsonTable;
-//}
-//foreach ($result as $h){
-//    $temp2 = array();
-//
-//    $temp2[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$h['date'])).')');
-//    $temp2[] = array('v' => number_format($h['humidity'],0));
-//    $hRows[] = array('c' => $temp2);
-//
-//    $humidityTable['rows'] = $hRows;
-//
-//    $jsonTable2 = json_encode($humidityTable);
-//}
-
-
 ?>
 
 
@@ -84,18 +41,18 @@ $data = mysqli_query($conn, $query);
       -->
         <div class="logo">
             <a href="http://18.224.7.205/" class="simple-text logo-normal">
-                Endicott Live Buoy
+                <img src="images/buoy.png" style="width: 50px; height: 50px"> Endicott Live Buoy
             </a>
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="nav-item active  ">
+                <li class="nav-item   ">
                     <a class="nav-link" href="index.php">
                         <i class="material-icons">home</i>
                         <p>Home</p>
                     </a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                     <a class="nav-link" href="history.php">
                         <i class="material-icons">show_chart</i>
                         <p>History</p>
@@ -221,7 +178,7 @@ $data = mysqli_query($conn, $query);
                                     <h4 class="card-title">Humidity Records</h4>
                                     <p class="card-category"> Showing Records of Humidity Over Time </p>
                                 </div>
-                                <div class="col-md-12" id="humidity_chart" style="width: 1000px; height: 500px"></div>
+                                <div class="col-md-12" id="humidity_chart" style="width: 900px; height: 500px"></div>
                             </div>
                         </div>
                     </div>
@@ -486,7 +443,7 @@ $data = mysqli_query($conn, $query);
 
             <?php
                 while($row = mysqli_fetch_array($result))
-                echo"['".$row["date"]."', ".$row["temperature"]."],";
+                echo"['".date('M d y ', strtotime($row["date"]))."', ".$row["temperature"]."],";
             ?>
 
 
@@ -498,7 +455,8 @@ $data = mysqli_query($conn, $query);
         var options = {
             title: "Records",
             chartArea: {width: '90%', height: '75%'},
-            legend:{position: 'bottom',name: 'Temperature'}
+            legend:{position: 'bottom',name: 'Temperature'},
+            hAxis:{textStyle:{fontSize: 12}},
 
         };
 
@@ -513,7 +471,7 @@ $data = mysqli_query($conn, $query);
 
             <?php
             while($hRow = mysqli_fetch_array($data))
-                echo"['".date('M d Y , g : i A', strtotime($hRow["date"]))."', ".$hRow["humidity"]."],";
+                echo"['".date('M d y ', strtotime($hRow["date"]))."', ".$hRow["humidity"]."],";
             ?>
 
 
@@ -523,7 +481,7 @@ $data = mysqli_query($conn, $query);
             title: "Records",
             chartArea: {width: '90%', height: '75%'},
             legend:{position: 'bottom',name: 'Humidity'},
-            hAxis:{textStyle:{fontSize: 7}},
+            hAxis:{textStyle:{fontSize: 12}},
 
         };
 
