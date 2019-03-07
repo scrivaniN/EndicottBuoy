@@ -73,7 +73,7 @@ $data = mysqli_query($conn, $query);
         <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand">Dashboard</a>
+                    <a class="navbar-brand">History</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="sr-only">Toggle navigation</span>
@@ -93,6 +93,7 @@ $data = mysqli_query($conn, $query);
                 </div>
             </div>
         </nav>
+        <!-- End of Navbar -->
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -103,7 +104,7 @@ $data = mysqli_query($conn, $query);
                                 <p class="card-category">Showing All Temperature Records</p>
                             </div>
                             <div class="card-body table-responsive table-wrapper-scroll-y">
-                                <table class="table table-hover ">
+                                <table class="table table-hover table table-fixed">
                                     <thead class="text-success">
                                     <tr>
                                         <th> Temperature</th>
@@ -182,33 +183,34 @@ $data = mysqli_query($conn, $query);
                             </div>
                         </div>
                     </div>
-                    <footer class="footer">
-                        <div class="container-fluid">
-                            <nav class="float-left">
-                                <ul>
-                                    <li>
-                                        <a href="https://github.com/scrivaniN">
-                                            Github
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="aboutUs.php">
-                                            About Us
-                                        </a>
-                                    </li>
-                            </nav>
-                            <div class="copyright float-right">
-                                &copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>, made by
-                                <a href="https://www.linkedin.com/in/nicholas-scrivani-93bb9110a/" target="_blank">Nicholas Scrivani</a>
-                            </div>
-                        </div>
-                    </footer>
                 </div>
             </div>
         </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="https://github.com/scrivaniN">
+                                Github
+                            </a>
+                        </li>
+                        <li>
+                            <a href="aboutUs.php">
+                                About Us
+                            </a>
+                        </li>
+                </nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, made by
+                    <a href="https://www.linkedin.com/in/nicholas-scrivani-93bb9110a/" target="_blank">Nicholas Scrivani</a>
+                </div>
+                </nav>
+            </div>
+        </footer>
     </div>
 </div>
 
@@ -443,7 +445,7 @@ $data = mysqli_query($conn, $query);
 
             <?php
                 while($row = mysqli_fetch_array($result))
-                echo"['".date('M d y ', strtotime($row["date"]))."', ".$row["temperature"]."],";
+                echo"['".date('M d, y ', strtotime($row["date"]))."', ".$row["temperature"]."],";
             ?>
 
 
@@ -471,7 +473,7 @@ $data = mysqli_query($conn, $query);
 
             <?php
             while($hRow = mysqli_fetch_array($data))
-                echo"['".date('M d y ', strtotime($hRow["date"]))."', ".$hRow["humidity"]."],";
+                echo"['".date('M d, y ', strtotime($hRow["date"]))."', ".$hRow["humidity"]."],";
             ?>
 
 
@@ -503,6 +505,8 @@ $data = mysqli_query($conn, $query);
         -ms-overflow-style: -ms-autohiding-scrollbar;
 
     }
+    
+
 </style>
 
 </html>

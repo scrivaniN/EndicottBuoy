@@ -169,33 +169,34 @@ while ($row = mysqli_fetch_array($result))
                             </div>
                         </div>
                     </div>
-                    <footer class="footer">
-                        <div class="container-fluid">
-                            <nav class="float-left">
-                                <ul>
-                                    <li>
-                                        <a href="https://github.com/scrivaniN">
-                                        Github
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="aboutUs.php">
-                                        About Us
-                                    </a>
-                                </li>
-                            </nav>
-                            <div class="copyright float-right">
-                                &copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>, made by
-                                <a href="https://www.linkedin.com/in/nicholas-scrivani-93bb9110a/" target="_blank">Nicholas Scrivani</a>
-                            </div>
-                        </div>
-                    </footer>
                 </div>
             </div>
         </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="https://github.com/scrivaniN">
+                                Github
+                            </a>
+                        </li>
+                        <li>
+                            <a href="aboutUs.php">
+                                About Us
+                            </a>
+                        </li>
+                </nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, made by
+                    <a href="https://www.linkedin.com/in/nicholas-scrivani-93bb9110a/" target="_blank">Nicholas Scrivani</a>
+                </div>
+                </nav>
+            </div>
+        </footer>
     </div>
 </div>
 </div>
