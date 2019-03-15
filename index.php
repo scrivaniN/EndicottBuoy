@@ -109,7 +109,7 @@ while ($row = mysqli_fetch_array($result))
                                 <h4 class="card-title">Air Temperature</h4>
                                 <p class="card-category">
                                     <?php
-                                    echo "<p>" . number_format($myArray[0]["temperature"],2)."&deg</p>";
+                                    echo "<p>" . number_format($myArray[0]["temperature"],2)."&deg F</p>";
                                     ?>
                                 </p>
                             </div>
@@ -150,12 +150,12 @@ while ($row = mysqli_fetch_array($result))
                     <div class="col-md-4">
                         <div class="card card-chart">
                             <div class="card-header card-header-danger">
-                                <img src="images/wind.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
+                                <img src="images/waterTemp.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title">Wind Speed</h4>
+                                <h4 class="card-title">Water Temperature</h4>
                                 <?php
-                                echo "<p>" . number_format($myArray[0]["humidity"],2)." MPH</p>";
+                                echo "<p>" . number_format($myArray[0]["water_temp"],2)." &deg F</p>";
                                 ?>
                             </div>
                             <div class="card-footer">
