@@ -5,9 +5,55 @@ $query = "SELECT * FROM readings ";
 $result = mysqli_query($conn, $query);
 $humidityRow = mysqli_query($conn, $query);
 
-$qry = "SELECT * FROM readings ORDER BY id ";
+
+$qry = "SELECT * FROM readings ORDER BY id desc ";
 $end = mysqli_query($conn, $query);
 $data = mysqli_query($conn, $query);
+$waterData = mysqli_query($conn, $query);
+
+$waterQry = "SELECT water_temp, date FROM readings WHERE id >= 64";
+$waterRow = mysqli_query($conn, $waterQry);
+
+$windQry = "SELECT wind_speed, date FROM readings WHERE id >= 70";
+$windRow = mysqli_query($conn, $windQry);
+
+
+$rows = array();
+$table = array();
+$table['cols'] = array(
+    array('label' => 'Date','type' => 'datetime'),
+    array('label' => ' Air Temperature ', 'type' => 'number'),
+    array('label' => 'Water Temperature', 'type' => 'number')
+);
+foreach ($result as $r){
+    $temp = array();
+    $temp[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$r['date'])).')');
+    $temp[] = array('v' => number_format($r['temperature'], 0));
+    $temp[] = array('v' => number_format($r['water_temp'],0));
+    $rows[] = array('c' => $temp);
+    $table['rows'] = $rows;
+    $jsonTable = json_encode($table);
+}
+
+
+$rows = array();
+$table = array();
+$table['cols'] = array(
+    array('label' => 'Date','type' => 'datetime'),
+    array('label' => ' Wind Speed ', 'type' => 'number'),
+
+);
+foreach ($result as $r){
+    $temp = array();
+    $temp[] = array('v' => 'Date(' . date('Y,n,d,H,i,s', strtotime('-1 month' .$r['date'])).')');
+    $temp[] = array('v' => number_format($r['wind_speed'], 0));
+    $rows[] = array('c' => $temp);
+    $table['rows'] = $rows;
+    $jsonTable2 = json_encode($table);
+}
+
+
+
 ?>
 
 
@@ -28,6 +74,7 @@ $data = mysqli_query($conn, $query);
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 
 <!--body-->
@@ -97,13 +144,37 @@ $data = mysqli_query($conn, $query);
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title">Date Picker</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-3">
+                                    <input type="text" name= "from_date" id= "from_date" class="form-control" placeholder="From Date">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" >
+                                </div>
+                                <div class="col-md-5">
+                                        <input type="button" name='filter' id="filter" value='Filter' class="btn btn-info">
+                                </div>
+                                <div class="col-md-3 alert alert-success collapse" id="myAlert">
+                                    <p id="linkClose" href="#" class="close"> </p>Date Updated
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card card-header-success">
                                 <h4 class="card-title">Temperatures</h4>
                                 <p class="card-category">Showing All Temperature Records</p>
                             </div>
-                            <div class="card-body table-responsive table-wrapper-scroll-y">
+                            <div class="card-body table-responsive table-wrapper-scroll-y" id="order_table">
                                 <table class="table table-hover table table-fixed">
                                     <thead class="text-success">
                                     <tr>
@@ -113,15 +184,16 @@ $data = mysqli_query($conn, $query);
                                     </thead>
                                     <tbody>
                                     <?php
-                                    if($end-> num_rows > 0){
-                                        while ($row = $end-> fetch_assoc()){
-                                            echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($row['date']))."</td></tr>";
-                                        }
-                                        echo "</table>";
+
+
+                                    while ($row = mysqli_fetch_array($end)){
+
+
+
+                                        echo "<tr><td>" . number_format($row['temperature'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($row['date']))."</td></tr>";
                                     }
-                                    else{
-                                        echo "0 result";
-                                    }
+                                    //echo "</table>";
+
 
                                     ?>
                                     </tbody>
@@ -135,7 +207,7 @@ $data = mysqli_query($conn, $query);
                                 <h4 class="card-title">Humidity</h4>
                                 <p class="card-category">Showing All Humidity Records</p>
                             </div>
-                            <div class="card-body table-responsive table-wrapper-scroll-y">
+                            <div class="card-body table-responsive table-wrapper-scroll-y" id="order_humidity">
                                 <table class="table table-hover ">
                                     <thead class="text-warning">
                                     <tr>
@@ -161,18 +233,84 @@ $data = mysqli_query($conn, $query);
                             </div>
                         </div>
                     </div>
+                </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="card">
+                                <div class="card card-header-danger">
+                                    <h4 class="card-title">Water Temperature</h4>
+                                    <p class="card-category">Showing All Water Temperature Records</p>
+                                </div>
+                                <div class="card-body table-responsive table-wrapper-scroll-y" id="order_water_temp">
+                                    <table class="table table-hover">
+                                        <thead class="text-danger">
+                                            <tr>
+                                                <th>Water Temperature</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if($waterRow-> num_rows > 0){
+                                            while ($getWaterRow= $waterRow -> fetch_assoc()){
+                                                echo "<tr><td>" . number_format($getWaterRow['water_temp'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($getWaterRow['date']))."</td></tr>";
+                                            }
+                                            echo "</table>";
+                                        }
+                                        else{
+                                            echo "0 result";
+                                        }
+                                        //$conn->close();
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="card">
+                                <div class="card card-header-primary">
+                                    <h4 class="card-title">Wind Speed</h4>
+                                    <p class="card-category">Showing All Wind Speed Records</p>
+                                </div>
+                                <div class="card-body table-responsive table-wrapper-scroll-y" id="order_wind_speed">
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                        <tr>
+                                            <th>Wind Speed</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if($windRow-> num_rows > 0){
+                                            while ($getWindRow= $windRow -> fetch_assoc()){
+                                                echo "<tr><td>" . number_format($getWindRow['wind_speed'],2)."</td><td>" . date('F dS Y , g : i  A', strtotime($getWindRow['date']))."</td></tr>";
+                                            }
+                                            echo "</table>";
+                                        }
+                                        else{
+                                            echo "0 result";
+                                        }
+                                    //$conn->close();
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-tabs card-header-success">
                                     <h4 class="card-title">Temperature Records</h4>
-                                    <p class="card-category"> Showing Records of Temperature Over Time </p>
+                                    <p class="card-category"> Showing All Records of Temperatures Over Time </p>
                                 </div>
                                 <div class="col-md-12" id="curve_chart" style="width: 900px; height: 500px"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-tabs card-header-warning">
@@ -182,9 +320,16 @@ $data = mysqli_query($conn, $query);
                                 <div class="col-md-12" id="humidity_chart" style="width: 900px; height: 500px"></div>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-tabs card-header-primary">
+                                    <h4 class="card-title">Wind Speed Records</h4>
+                                    <p class="card-category">Showing Records of Wind Speed Over Time</p>
+                                </div>
+                                <div class="col-md-12" id="wind_chart" style="width: 900px; height: 500px"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
         </div>
         <footer class="footer">
             <div class="container-fluid">
@@ -438,19 +583,10 @@ $data = mysqli_query($conn, $query);
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     google.charts.setOnLoadCallback(drawHumidityChart);
+    google.charts.setOnLoadCallback(drawWindChart);
 
     function drawChart() {
-        var data = new google.visualization.arrayToDataTable([
-            ['label', 'Temperature'],
-
-            <?php
-                while($row = mysqli_fetch_array($result))
-                echo"['".date('M d, y ', strtotime($row["date"]))."', ".$row["temperature"]."],";
-            ?>
-
-
-
-        ]);
+        var data = new google.visualization.DataTable(<?php echo $jsonTable ?>);
 
 
 
@@ -467,7 +603,9 @@ $data = mysqli_query($conn, $query);
 
         chart.draw(data, options);
 
-    }function drawHumidityChart() {
+    }
+
+    function drawHumidityChart() {
         var data = new google.visualization.arrayToDataTable([
             ['label', 'Humidity'],
 
@@ -491,9 +629,134 @@ $data = mysqli_query($conn, $query);
         chart.draw(data, options);
 
     }
+    function drawWindChart() {
+
+        var data = new google.visualization.DataTable(<?php echo $jsonTable2 ?>);
+       //var windData = new google.visualization.arrayToDataTable([
+       //    ['label', 'humidity'],
+       //
+       //    <?php
+       //        while($wRow = mysqli_fetch_array($windRow))
+       //            echo"['".date('M d, y ', strtotime($wRow["date"]))."', ".$wRow["wind_speed"]."],";
+       //    ?>
+       //
+       //
+       //]);
+       var options = {
+          title: "Records",
+          chartArea: {width: '90%', height: '75%'},
+          legend:{position: 'bottom',name: 'water'},
+          hAxis:{textStyle:{fontSize: 12}}
+       };
+
+
+       var chart = new google.visualization.LineChart(document.getElementById('wind_chart'));
+       chart.draw(data, options);
+
+    }
+
+
+
+
+
 
 
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $.datepicker.setDefaults({
+            dateFormat: "yy-mm-dd"
+        });
+        $(function(){
+            $("#from_date").datepicker();
+            $("#to_date").datepicker();
+        });
+        $('#filter').click(function () {
+            var from_date = $('#from_date').val();
+            var to_date =$('#to_date').val();
+            if(from_date != '' && to_date != ''){
+                $.ajax({
+                    url: "filter.php",
+                    method: "POST",
+                    data: {from_date: from_date, to_date:to_date, table: "temperature"},
+                    success: function (data) {
+                        $('#order_table').html(data);
+                    }
+                });
+            }else{
+                alert("please select date");
+            }
+        });
+        $('#filter').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date =$('#to_date').val();
+            if(from_date != '' && to_date != ''){
+                $.ajax({
+                    url:'filter.php',
+                    method: "POST",
+                    data: {from_date: from_date, to_date:to_date, table: "humidity"},
+                    success: function (data){
+                        $('#order_humidity').html(data);
+                    }
+                });
+            }else{
+                alert("please select date");
+            }
+        });
+        $('#filter').click(function () {
+            var from_date = $('#from_date').val();
+            var to_date =$('#to_date').val();
+            if(from_date != '' && to_date != ''){
+                $.ajax({
+                    url:'filter.php',
+                    method:"POST",
+                    data: {from_date:from_date, to_date: to_date, table: "water_temp"},
+                    success: function(data){
+                        $('#order_water_temp').html(data);
+                    }
+                });
+            }
+        });
+        $('#filter').click(function () {
+            var from_date = $('#from_date').val();
+            var to_date =$('#to_date').val();
+            if(from_date != '' && to_date != ''){
+                $.ajax({
+                    url:'filter.php',
+                    method:"POST",
+                    data: {from_date:from_date, to_date: to_date, table: "wind_speed"},
+                    success: function(data){
+                        $('#order_wind_speed').html(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#filter').click(function () {
+        $('#myAlert').show('fade');
+
+        setTimeout(function () {
+            $('#myAlert').hide('fade');
+        }, 2000);
+    });
+
+    $('#linkClose').click(function () {
+        $('#myAlert').hide('fade');
+    });
+
+});
+
+
+</script>
+
+
+
 </body>
 
 <style>
@@ -505,7 +768,7 @@ $data = mysqli_query($conn, $query);
         -ms-overflow-style: -ms-autohiding-scrollbar;
 
     }
-    
+
 
 </style>
 
