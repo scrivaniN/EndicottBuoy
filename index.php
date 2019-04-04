@@ -100,7 +100,7 @@ while ($row = mysqli_fetch_array($result))
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-chart">
                             <div class="card-header card-header-success">
                                 <img src="images/thermometer.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
@@ -123,7 +123,7 @@ while ($row = mysqli_fetch_array($result))
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-chart">
                             <div class="card-header card-header-warning">
                                <img src="images/humidity.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
@@ -147,7 +147,7 @@ while ($row = mysqli_fetch_array($result))
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-chart">
                             <div class="card-header card-header-danger">
                                 <img src="images/waterTemp.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
@@ -163,12 +163,32 @@ while ($row = mysqli_fetch_array($result))
                                     <i class="material-icons">access_time</i>
                                     <?php
                                     echo "<p><u>Date and Time Retrieved:</u><br>" .date('F dS Y , g : i A', strtotime($myArray[0]['date'])) ."</p>";
-                                    mysqli_close($conn);
                                     ?>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-primary">
+                                <img src="images/wind.png" style="height: 150px ; width: 150px ; display: block; margin: auto">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Wind Speed</h4>
+                                <?php
+                                    echo "<p>" . number_format($myArray[0]["wind_speed"], 2)." MPH </p>";
+                                ?>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">access_time</i>
+                                    <?php
+                                        echo "<p><u>Date and Time Retrieved:</u><br>" . date('F dS Y, g : i A', strtotime($myArray[0]['date']))."</p>";
+                                        mysqli_close($conn);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
