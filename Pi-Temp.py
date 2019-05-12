@@ -141,7 +141,8 @@ def writeToDB():
     print('writing to database' + 'Time' + str(now.hour) + ':' + str(now.minute))
 
     
-    cnx = mysql.connector.connect(user = 'nick', password = 'Scribbles1$', host = 'ecbuoy.cl7cxw0gh9pq.us-east-2.rds.amazonaws.com', database = 'endicottbuoy')
+    cnx = mysql.connector.connect(user = ' ', password = ' ', host = 'ecbuoy.cl7cxw0gh9pq.us-east-2.rds.amazonaws.com',
+    database = 'endicottbuoy')
     cursor = cnx.cursor()
     query = ("INSERT INTO readings (temperature, humidity, date, water_temp, wind_speed) VALUES (%s, %s, %s, %s, %s)")
     dht_data = (takeAvg(temperatureList),takeAvg(humidityList), now, takeAvg(waterList), takeAvg(windList))

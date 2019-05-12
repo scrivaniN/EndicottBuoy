@@ -17,7 +17,7 @@ $waterRow = mysqli_query($conn, $waterQry);
 $windQry = "SELECT wind_speed, date FROM readings WHERE id >= 70";
 $windRow = mysqli_query($conn, $windQry);
 
-
+//help provided from https://stackoverflow.com/questions/12994282/php-mysql-google-chart-json-complete-example
 $rows = array();
 $table = array();
 $table['cols'] = array(
@@ -586,13 +586,16 @@ foreach ($result as $r){
     google.charts.setOnLoadCallback(drawWindChart);
 
     function drawChart() {
+
         var data = new google.visualization.DataTable(<?php echo $jsonTable ?>);
 
 
 
         var options = {
             title: "Records",
-            chartArea: {width: '90%', height: '75%'},
+            'width': 900,
+            'height': 500,
+            //chartArea: {width: '90%', height: '75%'},
             legend:{position: 'bottom',name: 'Temperature'},
             hAxis:{textStyle:{fontSize: 12}},
 
@@ -619,7 +622,9 @@ foreach ($result as $r){
         ]);
         var options = {
             title: "Records",
-            chartArea: {width: '90%', height: '75%'},
+            'width': 900,
+            'height': 500,
+            //chartArea: {width: '90%', height: '75%'},
             legend:{position: 'bottom',name: 'Humidity'},
             hAxis:{textStyle:{fontSize: 12}},
 
@@ -644,8 +649,10 @@ foreach ($result as $r){
        //]);
        var options = {
           title: "Records",
-          chartArea: {width: '90%', height: '75%'},
-          legend:{position: 'bottom',name: 'water'},
+          ' width': 100,
+           'height': 500,
+          //chartArea: {width: '90%', height: '75%'},
+          legend:{position: 'bottom',name: 'wind'},
           hAxis:{textStyle:{fontSize: 12}}
        };
 

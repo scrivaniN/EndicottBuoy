@@ -93,8 +93,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">What is the Endicott Live Buoy</h4>
                                 <p class="card-description">
-                                    Endicott's water quality buoy collects and transmits to endicottlivebuoy.com on
-                                    weather and in-lake conditions every hour.
+                                    Endicott's water quality buoy collects and transmits
+                                    weather and in-lake conditions.
                                 </p>
                             </div>
                         </div>
@@ -107,8 +107,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">What does the Endicott Live Buoy Track?</h4>
                                 <p class="card-description">
-                                    The Endicott Live Buoy track's the temperature of the air and water, along with humidity,
-                                    pressure, wind speed. The Endicott Live Buoy is located at the Endicott
+                                    The Endicott Live Buoy track's the temperature of the air and water, along with humidity
+                                    and wind speed. The Endicott Live Buoy is located at the Endicott
                                     College main campus in Beverly, Massachusetts in the Lake directly next to the Ginger Judge
                                     Life Science Building.
                                 </p>
