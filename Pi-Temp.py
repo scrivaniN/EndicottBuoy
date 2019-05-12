@@ -1,8 +1,8 @@
 """
 Author: Nick Scrivani
 
-Objective of this script is to use a DHT22 sensor to
-gather temperature,humidity and date readings using the adafruit libary.
+Objective of this script is to use a DHT22,DS18B20 and anemometer to
+gather temperature,humidity,water temperature, wind speed and date readings using the adafruit libary.
 """
 
 import Adafruit_DHT as dht
